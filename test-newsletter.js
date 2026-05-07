@@ -5,7 +5,7 @@ async function testNewsletter() {
         
         const testData = { email: 'test@example.com' };
         
-        const response = await fetch('http://localhost:3001/subscribe', {
+        const response = await fetch('http://stem-profile.onrender.com/subscribe', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

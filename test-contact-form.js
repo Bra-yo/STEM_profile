@@ -11,7 +11,7 @@ async function testContactForm() {
             message: 'This is a test message from the contact form.'
         };
 
-        const response = await fetch('http://localhost:3001/send-message', {
+        const response = await fetch('https://stem-profile.onrender.com/send-message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

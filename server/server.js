@@ -33,14 +33,23 @@ try {
     transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
         port: Number(process.env.SMTP_PORT),
-        secure: false,
+        secure: process.env.SMTP_SECURE === 'true',
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
         },
-        connectionTimeout: 10000,
-        greetingTimeout: 10000,
-        socketTimeout: 10000
+        connectionTimeout: 30000,
+        greetingTimeout: 15000,
+        socketTimeout: 30000,
+        tls: {
+            rejectUnauthorized: false,
+            ciphers: 'SSLv3'
+        },
+        pool: true,
+        maxConnections: 1,
+        maxMessages: 5,
+        rateDelta: 1000,
+        rateLimit: 5
     });
 
     // Verify email configuration

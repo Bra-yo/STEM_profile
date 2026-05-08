@@ -1,10 +1,13 @@
 require('dotenv').config();
 const express = require('express');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Middleware
 app.use(express.json());
@@ -25,33 +28,15 @@ app.use((req, res, next) => {
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Create email transporter
-let transporter = null;
+// Resend email service configuration
+let emailServiceEnabled = false;
 
-// Try to create email transporter, but don't fail if credentials are wrong
-try {
-    transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT),
-        secure: false,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
-
-    // Verify email configuration
-    transporter.verify((error, success) => {
-        if (error) {
-            console.error('Email configuration error:', error.message);
-            console.log('⚠️  Email service not configured - forms will work but emails won\'t be sent');
-        } else {
-            console.log('✅ Email server is ready to send messages');
-        }
-    });
-} catch (error) {
-    console.error('Failed to create email transporter:', error.message);
-    console.log('⚠️  Email service disabled - forms will work but emails won\'t be sent');
+// Check if Resend API key is configured
+if (process.env.RESEND_API_KEY) {
+    emailServiceEnabled = true;
+    console.log('✅ Resend email service is configured');
+} else {
+    console.log('⚠️  Resend API key not found - forms will work but emails won\'t be sent');
 }
 
 // Contact form endpoint
@@ -104,22 +89,22 @@ app.post('/send-message', async (req, res) => {
             `;
         }
 
-        // Email options
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER, // Send to the same email (can be changed)
-            subject: emailSubject,
-            html: emailContent
-        };
+        // Email options (removed - using Resend directly)
 
-        // Send email only if transporter is configured
-        if (transporter) {
+        // Send email only if email service is enabled
+        if (emailServiceEnabled) {
             try {
-                await transporter.sendMail(mailOptions);
+                // Send email to admin
+                await resend.emails.send({
+                    from: 'onboarding@resend.dev',
+                    to: process.env.EMAIL_USER || 'shallommsila@gmail.com',
+                    subject: emailSubject,
+                    html: emailContent
+                });
                 
                 // Send confirmation email to the sender
-                const confirmationMailOptions = {
-                    from: process.env.EMAIL_USER,
+                await resend.emails.send({
+                    from: 'onboarding@resend.dev',
                     to: email,
                     subject: 'Thank you for contacting Shallom Sila',
                     html: `
@@ -127,19 +112,15 @@ app.post('/send-message', async (req, res) => {
                         <p>Dear ${name},</p>
                         <p>We have received your message and will get back to you as soon as possible.</p>
                         <p>Best regards,<br>The Shallom Sila Team</p>
-                        <hr>
-                        <p><small>This is an automated message. Please do not reply to this email.</small></p>
                     `
-                };
-
-                await transporter.sendMail(confirmationMailOptions);
+                });
                 console.log(`✅ Email sent successfully to ${email}`);
             } catch (emailError) {
                 console.error('Failed to send email:', emailError.message);
                 // Continue with success response even if email fails
             }
         } else {
-            console.log(`📝 Form submission received (email not configured): ${name} - ${email}`);
+            console.log(`📝 Form submission received (email service not enabled): ${name} - ${email}`);
         }
 
         res.json({ 
@@ -175,12 +156,12 @@ app.post('/subscribe', async (req, res) => {
 
     try {
         // Send notification email to admin
-        if (transporter) {
-            await transporter.sendMail({
-                from: process.env.EMAIL_USER,
-                to: process.env.EMAIL_USER,
+        if (emailServiceEnabled) {
+            await resend.emails.send({
+                from: 'onboarding@resend.dev',
+                to: process.env.EMAIL_USER || 'shallommsila@gmail.com',
                 subject: "New Newsletter Subscription",
-                text: `New subscriber: ${email}` 
+                html: `<p>New subscriber: ${email}</p>` 
             });
             console.log(`✅ Notification email sent for: ${email}`);
         }
@@ -227,15 +208,13 @@ app.post('/newsletter-subscribe', async (req, res) => {
         
         // Send notification email to admin
         try {
-            if (transporter) {
-                const mailOptions = {
-                    from: process.env.EMAIL_USER,
-                    to: process.env.EMAIL_USER,
+            if (emailServiceEnabled) {
+                await resend.emails.send({
+                    from: 'onboarding@resend.dev',
+                    to: process.env.EMAIL_USER || 'shallommsila@gmail.com',
                     subject: 'New Newsletter Subscription',
-                    text: `New newsletter subscriber: ${email}`
-                };
-
-                await transporter.sendMail(mailOptions);
+                    html: `<p>New newsletter subscriber: ${email}</p>`
+                });
                 console.log(`✅ Notification email sent to admin`);
             }
         } catch (emailError) {
@@ -265,5 +244,5 @@ app.use((req, res) => {
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-    console.log(`Email service configured for: ${process.env.EMAIL_USER ? process.env.EMAIL_USER : 'Not configured'}`);
+    console.log(`Resend email service: ${emailServiceEnabled ? '✅ Enabled' : '❌ Disabled'}`);
 });

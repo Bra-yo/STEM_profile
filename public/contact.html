@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Shallom Sila</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300D9FF'/%3E%3Cstop offset='100%25' style='stop-color:%237C3AED'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='%23020617'/%3E%3Ccircle cx='50' cy='30' r='8' fill='url(%23grad)'/%3E%3Cpath d='M35 40 Q50 35 65 40 L65 60 Q50 65 35 60 Z' fill='url(%23grad)'/%3E%3Cpath d='M30 65 Q50 60 70 65 L70 75 Q50 80 30 75 Z' fill='url(%23grad)'/%3E%3C/svg%3E">
+</head>
+<body>
+    <!-- Animated Background System -->
+    <div class="animated-bg">
+        <div class="gradient-bg"></div>
+        <canvas id="particles-canvas"></canvas>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Shallom Sila</h2>
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/shallom-sila-aa6277300/" target="_blank" class="social-icon" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=100082965705064" target="_blank" class="social-icon" aria-label="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://x.com/shallommsila" target="_blank" class="social-icon" aria-label="Twitter/X">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    <a href="https://www.instagram.com/shallomsila/" target="_blank" class="social-icon" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="vision.html" class="nav-link">Vision</a>
+                </li>
+                <li class="nav-item">
+                    <a href="mission.html" class="nav-link">Mission</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="blog.html" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="learn-more.html" class="nav-link">Learn More</a>
+                </li>
+                <li class="nav-item">
+                    <a href="partner.html" class="nav-link">Partner</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link active">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Get in touch with us to learn more, partner, or join our mission</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Get in Touch</h2>
+                    <p>
+                        We'd love to hear from you! Whether you're interested in our programs, want to partner with us, 
+                        or simply want to learn more about our mission, we're here to help.
+                    </p>
+                    
+                    <div class="contact-items">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Email</h3>
+                                <p>admin@shallomsila.org</p>
+                                <p>shallommsila@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Phone</h3>
+                                <p>+254 718 877 654</p>
+                                <p>+254 739 884 399</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Address</h3>
+                                <p>P.O BOX 746 – 90131 TALA, KENYA</p>
+                                <p>DC Tala, Katine/Silanga road</p>
+                                <p>Tala, Machakos County</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Office Hours</h3>
+                                <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                                <p>Saturday: 10:00 AM - 2:00 PM</p>
+                                <p>Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h2>Send Us a Message</h2>
+                    
+                    <!-- Alert Messages -->
+                    <div id="successAlert" class="alert success">
+                        <i class="fas fa-check-circle"></i>
+                        Thank you for your message! We'll get back to you soon.
+                    </div>
+                    
+                    <div id="errorAlert" class="alert error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Sorry, there was an error sending your message. Please try again.
+                    </div>
+                    
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="John Doe">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="john@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="How can we help you?">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" required placeholder="Tell us more about your inquiry..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2 class="section-title">Find Us</h2>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.123456789!2d37.123456789!3d-1.123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNMKwMDAnNDQuOSJTIDEwwrA3JzI3LjI3JkE!5e0!3m2!1sen!2ske!4v1234567890!5m2!1sen!2ske" 
+                    width="100%" 
+                    height="400" 
+                    style="border:0; border-radius: 12px;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    class="glass">
+                </iframe>
+                <div class="map-info">
+                    <h3>Visit Our Office</h3>
+                    <p>P.O BOX 746 – 90131 TALA, KENYA</p>
+                    <p>DC Tala, Katine/Silanga road, Tala, Machakos County</p>
+                    <a href="https://maps.google.com?q=Tala,Machakos+County,Kenya" target="_blank" class="btn btn-outline">Get Directions</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How can I enroll my child in your programs?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can enroll your child by filling out our online application form or visiting our office during business hours. We also host information sessions where you can learn more about our programs and meet our team.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you offer scholarships or financial aid?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer scholarships and financial aid based on need and merit. Please contact our admissions office for more information about available opportunities and application requirements.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How can I volunteer with Shallom Sila?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We welcome volunteers! You can apply through our website or contact our volunteer coordinator. We have various opportunities including mentoring, teaching assistance, event support, and administrative help.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What age groups do you work with?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We work with students from ages 8-18, with different programs tailored to specific age groups. Our programs are designed to be age-appropriate and progressive, building skills as students grow.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you partner with schools?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we actively partner with schools to bring our programs directly to students. If you're a school administrator interested in partnership, please contact our partnerships team.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How can businesses partner with you?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Businesses can partner through sponsorships, internship programs, mentorship opportunities, and resource sharing. Contact our partnerships team to discuss how we can collaborate.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="social-section">
+        <div class="container">
+            <h2 class="section-title">Connect With Us</h2>
+            <p>Follow us on social media for updates, success stories, and opportunities to get involved.</p>
+            <div class="social-links-large">
+                <a href="#" class="social-link-large">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                </a>
+                <a href="#" class="social-link-large">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                </a>
+                <a href="#" class="social-link-large">
+                    <i class="fab fa-linkedin-in"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="#" class="social-link-large">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+                <a href="#" class="social-link-large">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Make a Difference?</h2>
+                <p>Join us in our mission to empower the next generation of leaders and innovators.</p>
+                <div class="cta-buttons">
+                    <a href="partner.html" class="btn btn-primary">Partner With Us</a>
+                    <a href="learn-more.html" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Shallom Sila</h3>
+                    <p>Empowering the next generation through STEM, innovation, and leadership development.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=100082965705064" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/shallommsila" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/in/shallom-sila-aa6277300/" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/shallomsila/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="vision.html">Our Vision</a></li>
+                        <li><a href="mission.html">Our Mission</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Programs</h4>
+                    <ul>
+                        <li><a href="learn-more.html">STEM Education</a></li>
+                        <li><a href="learn-more.html">Leadership Development</a></li>
+                        <li><a href="learn-more.html">Digital Skills</a></li>
+                        <li><a href="learn-more.html">Mentorship</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="contact.html">Get in Touch</a></li>
+                        <li><a href="partner.html">Partner With Us</a></li>
+                        <li><a href="mailto:info@shallomsila.org">info@shallomsila.org</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 NYX QUANT SYSTEMS LTD. ALL rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="particles.js"></script>
+<script src="script.js"></script>
+    
+    <!-- FAQ Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const icon = question.querySelector('i');
+                
+                question.addEventListener('click', () => {
+                    // Close other FAQs
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                            otherItem.querySelector('.faq-question i').classList.remove('fa-chevron-up');
+                            otherItem.querySelector('.faq-question i').classList.add('fa-chevron-down');
+                        }
+                    });
+                    
+                    // Toggle current FAQ
+                    if (answer.style.maxHeight) {
+                        answer.style.maxHeight = null;
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    } else {
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

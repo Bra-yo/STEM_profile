@@ -1,9 +1,27 @@
-// DOM Elements
+// Global variables for navbar functionality
+let navLinks;
+let hamburger;
+let navMenu;
+let navbar;
+
 // Enhanced JavaScript for Futuristic Shallom Sila Website
 document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
     // Modal functionality (only if modal exists)
     const modal = document.getElementById('eventModal');
     const closeModal = document.querySelector('.close-modal');
+    
+    // Initialize navbar elements
+    hamburger = document.querySelector('.hamburger');
+    navMenu = document.querySelector('.nav-menu');
+    navLinks = document.querySelectorAll('.nav-link');
+    navbar = document.querySelector('.navbar');
+    
+    // Defensive checks for navbar elements
+    if (!hamburger || !navMenu || !navLinks || !navbar) {
+        console.warn('Some navbar elements are missing');
+        return;
+    }
     
     if (modal && closeModal) {
         // Check if user just subscribed to newsletter
@@ -33,11 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Mobile Navigation Toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const navbar = document.querySelector('.navbar');
-
     hamburger.addEventListener('click', function() {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
@@ -262,6 +275,166 @@ document.addEventListener('DOMContentLoaded', function() {
         // Disable parallax on mobile
         window.removeEventListener('scroll', parallaxEffect);
     }
+
+    // Initialize scroll animations
+    handleScrollAnimations();
+    
+    // Initialize animated counters
+    animateCounters();
+    
+    // Add fade-in class to elements that should animate
+    const animatedElements = document.querySelectorAll('.program-card, .event-card, .stat-card');
+    animatedElements.forEach(element => {
+        element.classList.add('fade-in');
+        // Make elements visible immediately
+        setTimeout(() => {
+            element.classList.add('visible');
+        }, 100);
+    });
+    
+    // Handle contact form if it exists
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+        handleFormSubmission(contactForm, successAlert, errorAlert);
+    }
+
+    // Handle newsletter form if it exists
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = newsletterForm.querySelector('#newsletterEmail').value;
+            
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = newsletterForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Subscribing...';
+            submitButton.disabled = true;
+            
+            try {
+                console.log('📧 Sending newsletter subscription request...');
+                const response = await fetch('https://stem-profile.onrender.com/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email })
+                });
+                
+                console.log('📧 Response received:', response.status);
+                const result = await response.json();
+                console.log('📧 Response data:', result);
+                
+                if (result.success) {
+                    console.log('✅ Newsletter subscription successful');
+                    alert('Thank you for subscribing! You\'ll receive updates soon.');
+                    newsletterForm.reset();
+                    
+                    // Set flag to prevent popup from showing immediately after redirect
+                    sessionStorage.setItem('justSubscribed', 'true');
+                    
+                    // Close modal and redirect to home page
+                    setTimeout(() => {
+                        const modal = document.getElementById('eventModal');
+                        if (modal) {
+                            modal.style.display = 'none';
+                        }
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    console.error('❌ Newsletter subscription failed:', result);
+                    alert('Subscription failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('❌ Newsletter subscription error:', error);
+                alert('Subscription failed. Please try again.');
+            } finally {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
+    }
+    
+    // Initialize event listeners
+    window.addEventListener('scroll', () => {
+        updateActiveNavLink();
+        handleScrollAnimations();
+        handleNavbarScroll();
+    });
+    
+    // Apply debouncing to scroll handlers
+    const debouncedScrollHandler = debounce(() => {
+        updateActiveNavLink();
+        handleScrollAnimations();
+        handleNavbarScroll();
+    }, 10);
+    
+    window.addEventListener('scroll', debouncedScrollHandler);
+    
+    // Add hover effect to cards
+    document.querySelectorAll('.program-card, .event-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+    
+    // Initialize section styles
+    document.querySelectorAll('section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    });
+    
+    window.addEventListener('scroll', revealSections);
+    revealSections(); // Initial check
+    
+    // Partner logo animation
+    const partnerLogos = document.querySelectorAll('.partner-logo');
+    partnerLogos.forEach(logo => {
+        logo.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        logo.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+    
+    // Performance optimization: Lazy load images when they come into viewport
+    const lazyImages = document.querySelectorAll('img[data-src]');
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+    
+    lazyImages.forEach(img => imageObserver.observe(img));
+    
+    // Add keyboard navigation support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu && hamburger && navMenu.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
 });
 
 // Smooth Scrolling for anchor links
@@ -280,6 +453,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Active Navigation Link based on scroll position
 function updateActiveNavLink() {
+    if (!navLinks || navLinks.length === 0) return;
+    
     const sections = document.querySelectorAll('section');
     const scrollY = window.pageYOffset;
 
@@ -378,7 +553,7 @@ function handleFormSubmission(form, successMessage, errorMessage) {
         submitButton.disabled = true;
         
         try {
-            const response = await fetch('/send-message', {
+            const response = await fetch('https://stem-profile.onrender.com/send-message', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -434,102 +609,20 @@ function handleFormSubmission(form, successMessage, errorMessage) {
     });
 }
 
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize scroll animations
-    handleScrollAnimations();
+// Smooth reveal animation for sections
+const revealSections = () => {
+    const sections = document.querySelectorAll('section');
     
-    // Initialize animated counters
-    animateCounters();
-    
-    // Add fade-in class to elements that should animate
-    const animatedElements = document.querySelectorAll('.program-card, .event-card, .stat-card');
-    animatedElements.forEach(element => {
-        element.classList.add('fade-in');
-        // Make elements visible immediately
-        setTimeout(() => {
-            element.classList.add('visible');
-        }, 100);
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (sectionTop < windowHeight * 0.75) {
+            section.style.opacity = '1';
+            section.style.transform = 'translateY(0)';
+        }
     });
-    
-    // Handle contact form if it exists
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        const successAlert = document.getElementById('successAlert');
-        const errorAlert = document.getElementById('errorAlert');
-        handleFormSubmission(contactForm, successAlert, errorAlert);
-    }
-
-    // Handle newsletter form if it exists
-    const newsletterForm = document.getElementById('newsletterForm');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = newsletterForm.querySelector('#newsletterEmail').value;
-            
-            if (!email) {
-                alert('Please enter your email address');
-                return;
-            }
-            
-            // Show loading state
-            const submitButton = newsletterForm.querySelector('button[type="submit"]');
-            const originalText = submitButton.textContent;
-            submitButton.textContent = 'Subscribing...';
-            submitButton.disabled = true;
-            
-            try {
-                console.log('📧 Sending newsletter subscription request...');
-                const response = await fetch('/subscribe', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email: email })
-                });
-                
-                console.log('📧 Response received:', response.status);
-                const result = await response.json();
-                console.log('📧 Response data:', result);
-                
-                if (result.success) {
-                    console.log('✅ Newsletter subscription successful');
-                    alert('Thank you for subscribing! You\'ll receive updates soon.');
-                    newsletterForm.reset();
-                    
-                    // Set flag to prevent popup from showing immediately after redirect
-                    sessionStorage.setItem('justSubscribed', 'true');
-                    
-                    // Close modal and redirect to home page
-                    setTimeout(() => {
-                        const modal = document.getElementById('eventModal');
-                        if (modal) {
-                            modal.style.display = 'none';
-                        }
-                        window.location.href = 'index.html';
-                    }, 1500);
-                } else {
-                    console.error('❌ Newsletter subscription failed:', result);
-                    alert('Subscription failed. Please try again.');
-                }
-            } catch (error) {
-                console.error('❌ Newsletter subscription error:', error);
-                alert('Subscription failed. Please try again.');
-            } finally {
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-            }
-        });
-    }
-});
-
-// Event Listeners
-window.addEventListener('scroll', () => {
-    updateActiveNavLink();
-    handleScrollAnimations();
-    handleNavbarScroll();
-});
+};
 
 // Page load animations
 window.addEventListener('load', () => {
@@ -548,84 +641,3 @@ function debounce(func, wait) {
         timeout = setTimeout(later, wait);
     };
 }
-
-// Apply debouncing to scroll handlers
-const debouncedScrollHandler = debounce(() => {
-    updateActiveNavLink();
-    handleScrollAnimations();
-    handleNavbarScroll();
-}, 10);
-
-window.addEventListener('scroll', debouncedScrollHandler);
-
-// Add hover effect to cards
-document.querySelectorAll('.program-card, .event-card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-10px) scale(1.02)';
-    });
-    
-    card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1)';
-    });
-});
-
-// Smooth reveal animation for sections
-const revealSections = () => {
-    const sections = document.querySelectorAll('section');
-    
-    sections.forEach(section => {
-        const sectionTop = section.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        
-        if (sectionTop < windowHeight * 0.75) {
-            section.style.opacity = '1';
-            section.style.transform = 'translateY(0)';
-        }
-    });
-};
-
-// Initialize section styles
-document.querySelectorAll('section').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(30px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-});
-
-window.addEventListener('scroll', revealSections);
-revealSections(); // Initial check
-
-// Partner logo animation
-const partnerLogos = document.querySelectorAll('.partner-logo');
-partnerLogos.forEach(logo => {
-    logo.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.1)';
-        this.style.transition = 'transform 0.3s ease';
-    });
-    
-    logo.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
-    });
-});
-
-// Add keyboard navigation support
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-    }
-});
-
-// Performance optimization: Lazy load images when they come into viewport
-const lazyImages = document.querySelectorAll('img[data-src]');
-const imageObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-            imageObserver.unobserve(img);
-        }
-    });
-});
-
-lazyImages.forEach(img => imageObserver.observe(img));

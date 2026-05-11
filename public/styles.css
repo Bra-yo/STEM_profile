@@ -452,17 +452,25 @@ body {
 }
 
 .hero-image {
-    min-height: 420px;
+    min-height: 460px;
+    border-radius: 24px;
+    overflow: hidden;
 }
 
 .hero-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-lg);
     transition: var(--transition-smooth);
     animation: fadeInRight 1s ease 0.6s backwards;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.08;
 }
 
 /* Buttons - Futuristic Glowing */
@@ -545,6 +553,13 @@ section {
     position: relative;
 }
 
+/* Mobile: More compact sections */
+@media (max-width: 768px) {
+    section {
+        padding: 40px 0;
+    }
+}
+
 .section-title {
     text-align: center;
     font-size: 3rem;
@@ -584,11 +599,38 @@ section {
     backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
     border-radius: var(--border-radius);
-    padding: 2rem;
+    padding: 32px 28px;
     text-align: center;
     transition: var(--transition-smooth);
     cursor: pointer;
     box-shadow: var(--glass-shadow);
+}
+
+.program-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 24px;
+}
+
+.program-card h3 {
+    margin-bottom: 18px;
+}
+
+.program-card li {
+    margin-bottom: 8px;
+}
+
+.program-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.program-card li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: left;
 }
 
 .program-card:hover {
@@ -758,7 +800,7 @@ transition: var(--transition);
 
 .partner-logo {
     flex: 0 0 auto;
-    margin: 0 2rem;
+    margin: 0 1rem;
     opacity: 0.7;
     transition: var(--transition);
 }
@@ -768,8 +810,9 @@ transition: var(--transition);
 }
 
 .partner-logo img {
-    height: 80px;
-    width: auto;
+    max-height: 70px;
+    max-width: 180px;
+    object-fit: contain;
 }
 
 @keyframes scroll {
@@ -784,6 +827,21 @@ transition: var(--transition);
 /* Events Section */
 .events {
     background: var(--background-color);
+}
+
+.events-message {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.events-message p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.newsletter-cta {
+    margin-top: 1rem;
 }
 
 .events-grid {
@@ -2565,13 +2623,18 @@ background: var(--background-color);
 .contact-items {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 20px;
 }
 
 .contact-item {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
+}
+
+.contact-section {
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .contact-icon {

@@ -175,7 +175,7 @@ body {
 
 .nav-logo h2 {
     color: var(--neon-cyan);
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
     text-shadow: var(--glow-cyan);
     transition: var(--transition-smooth);
@@ -201,7 +201,7 @@ body {
 
 .social-icon {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     transition: var(--transition-smooth);
     opacity: 0.8;
 }
@@ -393,7 +393,7 @@ body {
 /* Hero Section - Futuristic Fullscreen */
 .hero {
     min-height: 100vh;
-    padding: 120px 0 80px;
+    padding: 60px 0;
     background: transparent;
     color: var(--text-primary);
     overflow: hidden;
@@ -449,6 +449,10 @@ body {
     display: flex;
     gap: 1.5rem;
     animation: fadeInUp 1s ease 0.4s backwards;
+}
+
+.hero-image {
+    min-height: 420px;
 }
 
 .hero-image img {
@@ -537,7 +541,7 @@ body {
 
 /* Section Styles - Futuristic */
 section {
-    padding: 100px 0;
+    padding: 60px 0;
     position: relative;
 }
 
@@ -555,12 +559,11 @@ section {
 
 .section-subtitle {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
+    font-weight: 500;
     color: var(--text-secondary);
-    margin-bottom: 4rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: 2rem;
+    opacity: 0.9;
 }
 
 /* Programs Section - Glassmorphism */
@@ -578,15 +581,23 @@ section {
 
 .program-card {
     background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
-    border-radius: 16px;
+    border-radius: var(--border-radius);
     padding: 2rem;
     text-align: center;
     transition: var(--transition-smooth);
-    position: relative;
-    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--glass-shadow);
+}
+
+.program-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
+    border-color: var(--neon-cyan);
+}
+
+.program-card {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -1380,7 +1391,7 @@ select:focus {
 .page-header {
     background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
     color: var(--text-primary);
-    padding: 120px 0 80px;
+    padding: 60px 0;
     text-align: center;
 }
 
@@ -1399,7 +1410,7 @@ select:focus {
 /* About Hero Section - COMPLETE REBUILD */
 .about-hero {
     background: transparent;
-    padding: 100px 0;
+    padding: 60px 0;
 }
 
 .about-container {
@@ -1457,7 +1468,7 @@ select:focus {
 /* Initiative Section - Alternating Layout */
 .initiative-section {
     background: transparent;
-    padding: 100px 0;
+    padding: 60px 0;
 }
 
 .initiative-section .about-container {
@@ -1467,7 +1478,7 @@ select:focus {
 /* Introduction Section - Learn More Page */
 .introduction-section {
     background: transparent;
-    padding: 100px 0;
+    padding: 60px 0;
 }
 
 .introduction-section .about-container {
@@ -1521,6 +1532,12 @@ background: var(--background-color);
     gap: 2.5rem;
     max-width: 1400px;
     margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .value-card {
@@ -2984,6 +3001,13 @@ background: var(--background-color);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+}
+
+/* Desktop: 2 columns for Partner types */
+@media (min-width: 768px) {
+    .types-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .type-card {

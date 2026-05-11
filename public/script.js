@@ -112,41 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', revealOnScroll);
     revealOnScroll(); // Initial check
 
-    // Animated Counters for Statistics
-    function animateCounters() {
-        const counters = document.querySelectorAll('.stat-number');
-        const speed = 200;
-        
-        counters.forEach(counter => {
-            const animate = () => {
-                const value = +counter.getAttribute('data-target');
-                const data = +counter.innerText;
-                const time = value / speed;
-                
-                if (data < value) {
-                    counter.innerText = Math.ceil(data + time);
-                    setTimeout(animate, 1);
-                } else {
-                    counter.innerText = value;
-                }
-            };
-            
-            // Start animation when element is in view
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animate();
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-            
-            observer.observe(counter);
-        });
-    }
-
-    animateCounters();
-
+    
     // Enhanced Form Interactions
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
@@ -490,39 +456,44 @@ function handleScrollAnimations() {
 
 // Animated Counter for Stats
 function animateCounters() {
-    const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px'
-    };
+    const counters = document.querySelectorAll('.stat-number');
 
-    const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const target = parseInt(counter.getAttribute('data-target'));
-                const duration = 2000; // 2 seconds
-                const increment = target / (duration / 16); // 60fps
-                let current = 0;
+    counters.forEach(counter => {
+        const target = Number(counter.getAttribute('data-target'));
+        const suffix = counter.getAttribute('data-suffix') || '';
 
-                const updateCounter = () => {
-                    current += increment;
-                    if (current < target) {
-                        counter.textContent = Math.floor(current);
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.textContent = target;
-                    }
-                };
+        if (Number.isNaN(target)) {
+            console.warn('Invalid counter target:', counter);
+            return;
+        }
 
-                updateCounter();
-                counterObserver.unobserve(counter);
-            }
+        // Start animation when element is in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    let current = 0;
+                    const duration = 2000;
+                    const stepTime = 20;
+                    const increment = target / (duration / stepTime);
+
+                    const updateCounter = () => {
+                        current += increment;
+
+                        if (current < target) {
+                            counter.textContent = Math.floor(current).toLocaleString() + suffix;
+                            setTimeout(updateCounter, stepTime);
+                        } else {
+                            counter.textContent = target.toLocaleString() + suffix;
+                        }
+                    };
+
+                    updateCounter();
+                    observer.unobserve(entry.target);
+                }
+            });
         });
-    }, observerOptions);
 
-    const statNumbers = document.querySelectorAll('.stat-number');
-    statNumbers.forEach(counter => {
-        counterObserver.observe(counter);
+        observer.observe(counter);
     });
 }
 

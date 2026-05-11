@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .stat-card { text-align: center; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .stat-number { font-size: 2em; font-weight: bold; color: #007bff; }
+        .stat-label { font-size: 1.1em; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Impact Stats Counter Test</h1>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number" data-target="5000" data-suffix="+">0</div>
+            <div class="stat-label">Students Reached</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-target="5000" data-suffix="+">0</div>
+            <div class="stat-label">Educators</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-target="200" data-suffix="+">0</div>
+            <div class="stat-label">Schools Partnered</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-target="10" data-suffix="+">0</div>
+            <div class="stat-label">Programs Running</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const counters = document.querySelectorAll('.stat-number');
+
+            counters.forEach(counter => {
+                const target = Number(counter.getAttribute('data-target'));
+                const suffix = counter.getAttribute('data-suffix') || '';
+
+                if (Number.isNaN(target)) {
+                    console.warn('Invalid counter target:', counter);
+                    return;
+                }
+
+                let current = 0;
+                const duration = 2000;
+                const stepTime = 20;
+                const increment = target / (duration / stepTime);
+
+                const updateCounter = () => {
+                    current += increment;
+
+                    if (current < target) {
+                        counter.textContent = Math.floor(current).toLocaleString() + suffix;
+                        setTimeout(updateCounter, stepTime);
+                    } else {
+                        counter.textContent = target.toLocaleString() + suffix;
+                    }
+                };
+
+                updateCounter();
+            });
+        });
+    </script>
+</body>
+</html>

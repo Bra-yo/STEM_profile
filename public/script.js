@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!justSubscribed) {
             // Show modal on page load after a delay
             setTimeout(() => {
-                modal.style.display = 'block';
+                modal.classList.add('show');
             }, 2000);
         } else {
             // Clear the flag so popup shows normally on future visits
@@ -39,27 +39,29 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Close modal when clicking on X
         closeModal.addEventListener('click', function() {
-            modal.style.display = 'none';
+            modal.classList.remove('show');
         });
         
         // Close modal when clicking outside
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
-                modal.style.display = 'none';
+                modal.classList.remove('show');
             }
         });
     }
     
     // Mobile Navigation Toggle
     hamburger.addEventListener('click', function() {
-        hamburger.classList.toggle('active');
+        const isOpen = hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
         });
     });
 
@@ -311,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     setTimeout(() => {
                         const modal = document.getElementById('eventModal');
                         if (modal) {
-                            modal.style.display = 'none';
+                            modal.classList.remove('show');
                         }
                         window.location.href = 'index.html';
                     }, 1500);

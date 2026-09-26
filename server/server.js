@@ -6,8 +6,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend (only if an API key is configured — the SDK throws
+// immediately if constructed with an empty key, so this must be conditional)
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 // Middleware
 app.use(express.json());
